@@ -226,12 +226,12 @@ class Reward:
         next_point = track_line[closest_waypoints[1]]
         prev_point = track_line[closest_waypoints[0]]
         distance = distance_to_tangent([[x,y], next_point, prev_point])
-        raceline_reward = calculate_reward_using_signmoid(distance) * 5
+        raceline_reward = calculate_reward_using_signmoid(distance)
         
         speed_reward = speed / MAX_SPEED
 
         if steps > 1:
-          progress_reward = (progress / steps) ** 2
+          progress_reward = (progress * 50 / steps) ** 2
         else:
           progress_reward = 1
       
@@ -243,7 +243,7 @@ class Reward:
                 or closest_waypoints[0] in range(130, 134):
             if speed > 2.8:
                 speed_reward *= 0.01
-        total_reward = speed_reward + raceline_reward + progress_reward
+        total_reward = speed_reward * raceline_reward * progress_reward
 
         print("distance = " + format(distance, "0.3f"))
         print("raceline rewards = " + format(raceline_reward, ".3f"))
