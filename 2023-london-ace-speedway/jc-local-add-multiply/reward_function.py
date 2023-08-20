@@ -234,11 +234,11 @@ class Reward:
                 speed_reward *= 0.01
 
         if steps > 1:
-          progress_reward = progress * 2 / steps 
+          progress_reward = progress / steps 
         else:
           progress_reward = 1
       
-        total_reward = (speed_reward + raceline_reward + progress_reward) ** 2 + speed_reward * raceline_reward * progress_reward
+        total_reward = (progress_reward * 6 + raceline_reward * 2 + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
 
         print("distance = " + format(distance, "0.3f"))
         print("raceline rewards = " + format(raceline_reward, ".3f"))
