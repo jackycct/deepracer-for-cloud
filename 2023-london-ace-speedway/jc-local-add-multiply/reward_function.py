@@ -238,7 +238,9 @@ class Reward:
         else:
           progress_reward = 1
       
-        total_reward = (progress_reward * 6 + raceline_reward * 2 + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
+        progress_reward = progress_reward * 6
+        raceline_reward = raceline_reward * 2
+        total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
 
         print("distance = " + format(distance, "0.3f"))
         print("raceline rewards = " + format(raceline_reward, ".3f"))
