@@ -234,7 +234,7 @@ class Reward:
                 speed_reward *= 0.01
 
         if steps > 1:
-          progress_reward = progress / steps
+          progress_reward = progress * 2 / steps 
         else:
           progress_reward = 1
       
