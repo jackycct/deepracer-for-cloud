@@ -191,7 +191,7 @@ class Reward:
        [-7.81755507e-01, -3.52941203e+00],
        [-5.17685473e-01, -3.67439008e+00],
        [-3.67571035e-01, -3.75680483e+00]]) 
-        
+      
         # Max speed. Although the max speed is lower in corner, it will just give more bias to the racing line and progress
         MAX_SPEED = 4
 
@@ -203,53 +203,58 @@ class Reward:
         x = params['x']
         y = params['y']
         steering_angle = params['steering_angle']
+        is_offtrack = params['is_offtrack']
 
-        smooth_reward = 1
-        print("Steps : " + format(steps, "0.3f"))
-        if steps == 1:
-            self.past_params = []
-            print("smooth_reward : " + format(smooth_reward, "0.1f"))
+
+        if is_offtrack:
+            return 0.0001
         else:
-            last_idx = len(self.past_params) - 1
-            if last_idx >= 0:
-                prev_steering_angle = self.past_params[last_idx]['steering_angle']
-                prev_speed = self.past_params[last_idx]['speed']
-                if prev_steering_angle == steering_angle and prev_speed == speed:
-                    smooth_reward = 1.2
+            smooth_reward = 1
+            print("Steps : " + format(steps, "0.3f"))
+            if steps == 1:
+                self.past_params = []
+                print("smooth_reward : " + format(smooth_reward, "0.1f"))
+            else:
+                last_idx = len(self.past_params) - 1
+                if last_idx >= 0:
+                    prev_steering_angle = self.past_params[last_idx]['steering_angle']
+                    prev_speed = self.past_params[last_idx]['speed']
+                    if prev_steering_angle == steering_angle and prev_speed == speed:
+                        smooth_reward = 1.2
 
-                print("smooth_reward {}, previous {},{}, current {},{}".format(smooth_reward, prev_steering_angle, prev_speed, steering_angle, speed))
+                    print("smooth_reward {}, previous {},{}, current {},{}".format(smooth_reward, prev_steering_angle, prev_speed, steering_angle, speed))
 
-        # adding past params for calculating rewards
-        self.past_params.append(params)
+            # adding past params for calculating rewards
+            self.past_params.append(params)
 
-        # Calculate the deviation from raceline    
-        next_point = track_line[closest_waypoints[1]]
-        prev_point = track_line[closest_waypoints[0]]
-        distance = distance_to_tangent([[x,y], next_point, prev_point])
-        raceline_reward = calculate_reward_using_signmoid(distance)
-        
-        speed_reward = speed / MAX_SPEED
-        if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
-            if speed < 3.4:
-                speed_reward *= 0.01
+            # Calculate the deviation from raceline    
+            next_point = track_line[closest_waypoints[1]]
+            prev_point = track_line[closest_waypoints[0]]
+            distance = distance_to_tangent([[x,y], next_point, prev_point])
+            raceline_reward = calculate_reward_using_signmoid(distance)
+            
+            speed_reward = speed / MAX_SPEED
+            if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
+                if speed < 3.4:
+                    speed_reward *= 0.01
 
-        if steps > 1:
-          progress_reward = progress / steps 
-        else:
-          progress_reward = 1
-      
-        progress_reward = progress_reward * 4
-        raceline_reward = raceline_reward * 2
-        total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
+            if steps > 1:
+                progress_reward = progress / steps 
+            else:
+                progress_reward = 1
 
-        print("distance = " + format(distance, "0.3f"))
-        print("raceline rewards = " + format(raceline_reward, ".3f"))
-        print("speed rewards = " + format(speed_reward, ".3f"))
-        print("progress rewards = " + format(progress_reward, ".3f"))
-        # print("smooth rewards = " + format(smooth_reward, ".3f"))
-        print("total rewards = " + format(total_reward, ".3f"))
+            progress_reward = progress_reward * 4
+            raceline_reward = raceline_reward * 2
+            total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
 
-        return total_reward
+            print("distance = " + format(distance, "0.3f"))
+            print("raceline rewards = " + format(raceline_reward, ".3f"))
+            print("speed rewards = " + format(speed_reward, ".3f"))
+            print("progress rewards = " + format(progress_reward, ".3f"))
+            # print("smooth rewards = " + format(smooth_reward, ".3f"))
+            print("total rewards = " + format(total_reward, ".3f"))
+
+            return total_reward
     
 reward_object = Reward()  # add parameter verbose=True to get noisy output for testing
 
