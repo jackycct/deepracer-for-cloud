@@ -249,12 +249,12 @@ class Reward:
             # Calculate the direction in radius, arctan2(dy, dx), the result is (-pi, pi) in radians between target and current vehicle position
             next_x, next_y = next_point
             route_direction = math.atan2(next_y - y, next_x - x) 
-            print("next_x " + next_x + " next y " + next_y + " direction " + route_direction)
+            print("next_x " + format(next_x, ".3f") + " next y " + format(next_y, ".3f") + " direction " + format(route_direction, ".3f"))
             # Convert to degree
             route_direction_deg = math.degrees(route_direction)
             # Calculate the difference between the track direction and the heading direction of the car
             direction_diff = route_direction_deg - heading
-            print(route_direction_deg + "  " + direction_diff)
+            print(format(route_direction_deg, ".3f") + "  " + format(direction_diff, ".3f"))
             #Check that the direction_diff is in valid range
             #Then compute the heading reward
             power = 4 if abs(direction_diff) <= 30 else 10
