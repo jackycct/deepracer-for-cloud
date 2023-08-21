@@ -247,7 +247,7 @@ class Reward:
 
             # Heading reward
             # Calculate the direction in radius, arctan2(dy, dx), the result is (-pi, pi) in radians between target and current vehicle position
-            next_x, next_y = next_point[1]
+            next_x, next_y = next_point
             route_direction = math.atan2(next_y - y, next_x - x) 
             # Convert to degree
             route_direction_deg = math.degrees(route_direction)
