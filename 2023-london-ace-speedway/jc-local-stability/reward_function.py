@@ -255,9 +255,8 @@ class Reward:
             direction_diff = route_direction_deg - heading
             #Check that the direction_diff is in valid range
             #Then compute the heading reward
-            heading_reward = math.cos( abs( direction_diff ) * ( math.pi / 180 ) ) ** 10
-            if abs(direction_diff) <= 20:
-                heading_reward = math.cos( abs( direction_diff ) * ( math.pi / 180 ) ) ** 4
+            power = 4 if abs(direction_diff) <= 30 else 10
+            heading_reward = math.cos( abs( direction_diff ) * ( math.pi / 180 ) ) ** power
 
             # Given the car is closed to the raceline and heading in the right direction, 
             # when car does not change the steering, 
