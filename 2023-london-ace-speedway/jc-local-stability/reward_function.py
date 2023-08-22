@@ -279,7 +279,7 @@ class Reward:
 
             progress_reward = progress_reward * 4
             raceline_reward = raceline_reward * 2
-            heading_reward = heading_reward * steering_angle_maintain_bonus
+            heading_reward = heading_reward / 3 * steering_angle_maintain_bonus 
             speed_reward = speed_reward * speed_maintain_bonus
             total_reward = (progress_reward + raceline_reward + heading_reward + speed_reward) ** 2 \
                             + speed_reward * raceline_reward * heading_reward * progress_reward
