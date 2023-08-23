@@ -230,19 +230,26 @@ class Reward:
         
         speed_reward = speed / MAX_SPEED
         if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
-            if speed > 3.4:
-                speed_reward *= 1.1
-            if speed == 4.0:
-                speed_reward *= 1.1                
-        if closest_waypoints[0] in range(45, 56):
-            if speed < 3.0:
-                speed_reward *= 1.1
+            if speed < 3.4:
+                speed_reward *= 0.01
 
         if steps > 1:
           progress_reward = ((progress * 50) / steps) ** 2
         else:
           progress_reward = 1
-      
+
+        if steps == 29 and progress > 10 \
+                or steps == 53 and progress > 20 \
+                or steps == 75 and progress > 30 \
+                or steps == 100 and progress > 40 \
+                or steps == 120 and progress > 50 \
+                or steps == 143 and progress > 60 \
+                or steps == 164 and progress > 70 \
+                or steps == 190 and progress > 80 \
+                or steps == 212 and progress > 90 \
+                or progress == 100 and steps < 233:
+            progress_reward *= 5    
+
         total_reward = speed_reward * raceline_reward * progress_reward
 
         print("distance = " + format(distance, "0.3f"))
