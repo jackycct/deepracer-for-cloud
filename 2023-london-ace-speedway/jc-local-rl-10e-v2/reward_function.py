@@ -229,9 +229,11 @@ class Reward:
         raceline_reward = calculate_reward_using_signmoid(distance)
         
         speed_reward = speed / MAX_SPEED
-        if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
+        if closest_waypoints[0] > 135 or closest_waypoints[1] < 12:
             if speed < 3.4:
                 speed_reward *= 0.01
+            if abs(steering_angle) > 11:
+                raceline_reward *= 0.01
 
         if steps > 1:
           progress_reward = ((progress * 50) / steps) ** 2
