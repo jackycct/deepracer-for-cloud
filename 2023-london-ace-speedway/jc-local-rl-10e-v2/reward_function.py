@@ -230,11 +230,13 @@ class Reward:
         
         speed_reward = speed / MAX_SPEED
         if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
-            if speed < 3.4:
-                speed_reward *= 0.01
-        if closest_waypoints[0] in range(45, 54):
-            if speed > 3.0:
-                speed_reward *= 0.01                
+            if speed > 3.4:
+                speed_reward *= 1.1
+            if speed == 4.0:
+                speed_reward *= 1.1                
+        if closest_waypoints[0] in range(45, 56):
+            if speed < 3.0:
+                speed_reward *= 1.1
 
         if steps > 1:
           progress_reward = ((progress * 50) / steps) ** 2
