@@ -231,10 +231,15 @@ class Reward:
         speed_reward = speed / MAX_SPEED
         if closest_waypoints[0] > 135 or closest_waypoints[1] < 12:
             if speed < 3.4:
-                speed_reward *= 0.01
+                return 1e-3
             if abs(steering_angle) > 11:
-                raceline_reward *= 0.01
+                return 1e-3
 
+        if closest_waypoints[0] in range(18, 54) \
+                or closest_waypoints[0] in range(92, 54):
+            if steering_angle < -11:
+                return 1e-3
+            
         if steps > 1:
           progress_reward = ((progress * 50) / steps) ** 2
         else:
