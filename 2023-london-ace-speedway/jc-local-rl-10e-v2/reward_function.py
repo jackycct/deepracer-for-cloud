@@ -238,16 +238,16 @@ class Reward:
         else:
           progress_reward = 1
 
-        if steps == 29 and progress > 10 \
-                or steps == 53 and progress > 20 \
-                or steps == 75 and progress > 30 \
-                or steps == 100 and progress > 40 \
-                or steps == 120 and progress > 50 \
-                or steps == 143 and progress > 60 \
-                or steps == 164 and progress > 70 \
-                or steps == 190 and progress > 80 \
-                or steps == 212 and progress > 90 \
-                or progress == 100 and steps < 233:
+        if steps == 30 and progress > 10 \
+                or steps == 55 and progress > 20 \
+                or steps == 79 and progress > 30 \
+                or steps == 105 and progress > 40 \
+                or steps == 126 and progress > 50 \
+                or steps == 150 and progress > 60 \
+                or steps == 172 and progress > 70 \
+                or steps == 199 and progress > 80 \
+                or steps == 223 and progress > 90 \
+                or progress == 100 and steps < 244:
             progress_reward *= 5    
 
         total_reward = speed_reward * raceline_reward * progress_reward
