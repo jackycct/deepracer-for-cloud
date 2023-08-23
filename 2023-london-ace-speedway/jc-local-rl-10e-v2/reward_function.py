@@ -236,7 +236,7 @@ class Reward:
                 return 1e-3
 
         if closest_waypoints[0] in range(18, 54) \
-                or closest_waypoints[0] in range(92, 54):
+                or closest_waypoints[0] in range(92, 134):
             if steering_angle < -11:
                 return 1e-3
             
