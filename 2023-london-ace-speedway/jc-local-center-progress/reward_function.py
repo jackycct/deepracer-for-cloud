@@ -24,11 +24,12 @@ def reward_function(params):
         if progress == 100:
             final_reward = 100
 
+        final_reward = 100 if progress == 100.0 else 0
+
         print("raceline_reward = " + format(raceline_reward, ".3f"))
         print("progress_reward = " + format(progress_reward, ".3f"))
+        print("final reward = " + format(final_reward, ".3f"))
 
-        final_reward = 100 if progress == 100.0 else 0
-        
         reward = progress_reward + raceline_reward ** 2 + final_reward
 
     return reward
