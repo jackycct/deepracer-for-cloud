@@ -14,10 +14,8 @@ def reward_function(params):
         raceline_reward = 1e-3
         if distance_from_center >= 0.0 and distance_from_center <= 0.02:
             raceline_reward = 1.0
-        elif distance_from_center >= 0.02 and distance_from_center <= 0.03:
-            raceline_reward = 0.3
-        elif distance_from_center >= 0.03 and distance_from_center <= 0.05:
-            raceline_reward = 0.1
+        elif distance_from_center >= 0.02:
+            raceline_reward = distance_from_center
         
         progress_reward = progress / steps
 
@@ -30,6 +28,6 @@ def reward_function(params):
         print("progress_reward = " + format(progress_reward, ".3f"))
         print("final reward = " + format(final_reward, ".3f"))
 
-        reward = progress_reward + raceline_reward ** 2 + final_reward
+        reward = progress_reward + raceline_reward / 2 + final_reward
 
     return reward
