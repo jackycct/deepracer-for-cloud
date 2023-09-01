@@ -197,6 +197,7 @@ class Reward:
 
         # Read input parameters
         speed = params['speed']
+        waypoints = params['waypoints']
         closest_waypoints = params['closest_waypoints']
         progress = params['progress']
         steps = params['steps']
@@ -228,9 +229,13 @@ class Reward:
             self.past_params.append(params)
 
             # Calculate the deviation from raceline    
+            next_waypoint = waypoints[closest_waypoints[1]]
+            prev_waypoint = waypoints[closest_waypoints[0]]
             next_point = track_line[closest_waypoints[1]]
             prev_point = track_line[closest_waypoints[0]]
             distance = distance_to_tangent([[x,y], next_point, prev_point])
+            print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
+            print("rl " + format(prev_point[0], "0.1f") + "," + format(prev_point[1], "0.1f") + "  " + format(next_point[0], "0.1f") + "," + format(next_point[1], "0.1f") + "  " + format(x, "0.1f") + "," + format(y, "0.1f"))
             raceline_reward = calculate_reward_using_signmoid(distance)
             
             speed_reward = speed / MAX_SPEED
