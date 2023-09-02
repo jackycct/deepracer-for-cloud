@@ -300,7 +300,7 @@ class Reward:
             if steering_diff < 10:
                 heading_reward = 1
             else:
-                heading_reward = max(1 - abs(steering_diff) / (MAX_STEERING+1), 1e-3)
+                heading_reward = max(1 - abs(steering_diff) / 180, 1e-3)
 
             if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
                 if distance < 0.2:
