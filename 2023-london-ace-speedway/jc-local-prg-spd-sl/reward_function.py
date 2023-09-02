@@ -204,7 +204,8 @@ class Reward:
         y = params['y']
         steering_angle = params['steering_angle']
         is_offtrack = params['is_offtrack']
-
+        is_left_of_center = params['is_left_of_center']
+        distance_from_center = params['distance_from_center']
 
         if is_offtrack:
             return 0.0001
@@ -235,10 +236,12 @@ class Reward:
             
             speed_reward = speed / MAX_SPEED
             if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
-                if speed > 3.4:
+                if not is_left_of_center and distance_from_center > 0.35:
                     speed_reward *= 1.1
-                if steering_angle == 0:
-                    speed_reward *= 1.1
+                    if steering_angle == 0:
+                        speed_reward *= 1.1
+                    if speed > 3.4:
+                        speed_reward *= 1.1 
 
             if steps > 1:
                 progress_reward = progress / steps 
