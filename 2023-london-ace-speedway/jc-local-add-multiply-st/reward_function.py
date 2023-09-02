@@ -284,8 +284,8 @@ class Reward:
 
             heading_reward = 0.0001
             # Heading reward, if it is suppose to turn left but turning right, then penalty
-            next_x, next_y = next_waypoint
-            prev_x, prev_y = prev_waypoint
+            next_x, next_y = next_point
+            prev_x, prev_y = prev_point
             wp_direction = math.atan2(next_y - prev_y, next_x - prev_x) 
             print("next_x " + format(next_x, ".3f") + " next y " + format(next_y, ".3f") + " trackline_direction " + format(wp_direction, ".3f"))
             # Convert to degree
