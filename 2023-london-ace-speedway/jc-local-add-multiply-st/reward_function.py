@@ -287,7 +287,7 @@ class Reward:
             # Heading reward, if it is suppose to turn left but turning right, then penalty
             WP_LOOKAHEAD = 2
             lookahead = round(WP_LOOKAHEAD * (prev_speed + speed))
-            next_wp = closest_waypoints[1] + lookahead % len(waypoints)
+            next_wp = (closest_waypoints[1] + lookahead) % len(waypoints)
             further_point = track_line[next_wp]
             next_x, next_y = further_point
             wp_direction = math.atan2(next_y - y, next_x - x) 
