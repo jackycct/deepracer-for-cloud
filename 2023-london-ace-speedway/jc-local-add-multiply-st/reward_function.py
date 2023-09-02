@@ -307,7 +307,7 @@ class Reward:
                 if speed < 3.4:
                     speed_reward *= 0.01
 
-            if progress > self.one_step_count * 1:
+            if progress > self.one_step_count * 10:
                 progress_reward = progress * 250 / steps
                 self.one_step_count += 1
                 print("progress rewards = " + format(progress_reward, ".3f"))
