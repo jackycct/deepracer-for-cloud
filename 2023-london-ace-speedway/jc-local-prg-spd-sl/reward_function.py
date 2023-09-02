@@ -273,7 +273,6 @@ class Reward:
                 progress_reward = 1
 
             progress_reward = progress_reward * 4
-            raceline_reward = raceline_reward * 2
             total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + progress_reward * speed_reward
 
             #print("distance = " + format(distance, "0.3f"))
