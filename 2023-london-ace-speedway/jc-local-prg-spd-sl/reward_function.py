@@ -234,12 +234,11 @@ class Reward:
             raceline_reward = calculate_reward_using_signmoid(distance)
             
             speed_reward = speed / MAX_SPEED
-            sl_reward = 1e-3
             if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
-                if speed > 3.3:
-                    sl_reward += 0.5
+                if speed > 3.4:
+                    speed_reward *= 1.1
                 if steering_angle == 0:
-                    sl_reward += 0.5
+                    speed_reward *= 1.1
 
             if steps > 1:
                 progress_reward = progress / steps 
@@ -248,13 +247,12 @@ class Reward:
 
             progress_reward = progress_reward * 4
             raceline_reward = raceline_reward * 2
-            total_reward = (progress_reward + speed_reward + sl_reward) ** 2 + progress_reward * speed_reward * sl_reward
+            total_reward = (progress_reward + speed_reward) ** 2 + progress_reward * speed_reward
 
             #print("distance = " + format(distance, "0.3f"))
             #print("raceline rewards = " + format(raceline_reward, ".3f"))
-            print("progress rewards = " + format(progress_reward, ".3f"))
             print("speed rewards = " + format(speed_reward, ".3f"))
-            
+            print("progress rewards = " + format(progress_reward, ".3f"))
             # print("smooth rewards = " + format(smooth_reward, ".3f"))
             #print("total rewards = " + format(total_reward, ".3f"))
 

@@ -6,10 +6,48 @@ def distance_to_tangent(points):
     x, y = points[0]
     x1, y1 = points[1]
     x2, y2 = points[2]
-    slope = (y2 - y1) / (x2 - x1)
-    y_intercept = y1 - slope * x1
-    tangent_y = slope * x + y_intercept
-    return math.sqrt((x - x1)**2 + (tangent_y - y)**2)
+    
+    # Calculate the direction vector of the line
+    dx = x2 - x1
+    dy = y2 - y1
+
+    # Calculate the length of the direction vector
+    length = math.sqrt(dx**2 + dy**2)
+
+    # Calculate the normalized direction vector
+    if length == 0:
+        raise ValueError("The line is just a point")
+    else:
+        dx /= length
+        dy /= length
+
+    # Calculate the vector from (x1, y1) to (x, y)
+    vx = x - x1
+    vy = y - y1
+
+    # Calculate the dot product of the two vectors
+    dot_product = vx * dx + vy * dy
+
+    # Calculate the projection of (x, y) onto the line
+    projection_x = x1 + dot_product * dx
+    projection_y = y1 + dot_product * dy
+
+    # Calculate the distance from (x, y) to the projection point
+    distance = math.sqrt((x - projection_x)**2 + (y - projection_y)**2)
+
+    return distance
+
+def distance_to_raceline(current_point, prev_point, next_point):
+    """Calculates the distance of (x, y) to the tangent of (x1, y1) and (x2, y2)."""
+    x, y = current_point
+    x1, y1 = prev_point
+    x2, y2 = next_point
+
+    # Calculate the distance from (x, y) to the next point
+    distance1 = math.sqrt((x - x1)**2 + (y - y1)**2)
+    distance2 = math.sqrt((x - x2)**2 + (y - y2)**2)
+
+    return min(distance1, distance2)
 
 def calculate_reward_using_signmoid(x):
     """Returns the sigmoid value of x."""
@@ -197,7 +235,9 @@ class Reward:
 
         # Read input parameters
         speed = params['speed']
+        waypoints = params['waypoints']
         closest_waypoints = params['closest_waypoints']
+        heading = params['heading']
         progress = params['progress']
         steps = params['steps']
         x = params['x']
@@ -228,17 +268,35 @@ class Reward:
             self.past_params.append(params)
 
             # Calculate the deviation from raceline    
+            next_waypoint = waypoints[closest_waypoints[1]]
+            prev_waypoint = waypoints[closest_waypoints[0]]
             next_point = track_line[closest_waypoints[1]]
             prev_point = track_line[closest_waypoints[0]]
-            distance = distance_to_tangent([[x,y], next_point, prev_point])
+            distance = distance_to_raceline([x,y], prev_point, next_point)
+            #distance = distance_to_tangent([[x,y], next_point, prev_point])
+            print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
+            print("rl " + format(prev_point[0], "0.1f") + "," + format(prev_point[1], "0.1f") + "  " + format(next_point[0], "0.1f") + "," + format(next_point[1], "0.1f") + "  " + format(x, "0.1f") + "," + format(y, "0.1f"))
             raceline_reward = calculate_reward_using_signmoid(distance)
-            
+
             speed_reward = speed / MAX_SPEED
+
+            heading_reward = 0.0001
             if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
-                if speed > 3.4:
-                    speed_reward *= 1.1
-                if steering_angle == 0:
-                    speed_reward *= 1.1
+                next_x, next_y = next_point
+                prev_x, prev_y = prev_point
+                trackline_direction = math.atan2(next_y - prev_y, next_x - prev_x) 
+                print("next_x " + format(next_x, ".3f") + " next y " + format(next_y, ".3f") + " trackline_direction " + format(trackline_direction, ".3f"))
+                # Convert to degree
+                trackline_direction_deg = math.degrees(trackline_direction)
+                # Calculate the difference between the track direction and the heading direction of the car
+                direction_diff = trackline_direction_deg - heading
+                if distance < 0.2:
+                    if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
+                        heading_reward = 0.5
+                    if abs(direction_diff) < 5 and abs(steering_angle) == 0:
+                        heading_reward = 1.0
+                if speed < 3.4:
+                    speed_reward *= 0.01
 
             if steps > 1:
                 progress_reward = progress / steps 
@@ -247,14 +305,16 @@ class Reward:
 
             progress_reward = progress_reward * 4
             raceline_reward = raceline_reward * 2
-            total_reward = (progress_reward + speed_reward) ** 2 + progress_reward * speed_reward
+            #total_reward = raceline_reward
+            total_reward = raceline_reward + heading_reward
+            #total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
 
-            #print("distance = " + format(distance, "0.3f"))
-            #print("raceline rewards = " + format(raceline_reward, ".3f"))
+            print("distance = " + format(distance, "0.3f"))
+            print("raceline rewards = " + format(raceline_reward, ".3f"))
             print("speed rewards = " + format(speed_reward, ".3f"))
             print("progress rewards = " + format(progress_reward, ".3f"))
             # print("smooth rewards = " + format(smooth_reward, ".3f"))
-            #print("total rewards = " + format(total_reward, ".3f"))
+            print("total rewards = " + format(total_reward, ".3f"))
 
             return total_reward
     
