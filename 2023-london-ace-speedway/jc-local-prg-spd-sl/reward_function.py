@@ -198,6 +198,7 @@ class Reward:
         # Read input parameters
         speed = params['speed']
         closest_waypoints = params['closest_waypoints']
+        waypoints = params['waypoints']
         progress = params['progress']
         steps = params['steps']
         x = params['x']
@@ -206,6 +207,7 @@ class Reward:
         is_offtrack = params['is_offtrack']
         is_left_of_center = params['is_left_of_center']
         distance_from_center = params['distance_from_center']
+        heading = params['heading']
 
         if is_offtrack:
             return 0.0001
@@ -234,14 +236,36 @@ class Reward:
             distance = distance_to_tangent([[x,y], next_point, prev_point])
             raceline_reward = calculate_reward_using_signmoid(distance)
             
+            # Calculate the deviation from raceline    
+            next_waypoint = waypoints[closest_waypoints[1]]
+            prev_waypoint = waypoints[closest_waypoints[0]]
+
             speed_reward = speed / MAX_SPEED
+
+            heading_reward = 0.0001
+            raceline_reward = 1
             if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
                 if not is_left_of_center and distance_from_center > 0.35:
-                    speed_reward *= 1.1
-                    if steering_angle == 0:
-                        speed_reward *= 1.1
-                    if speed > 3.4:
-                        speed_reward *= 1.1 
+                    raceline_reward = 1.5
+                else:
+                    raceline_reward = 1.0
+
+                next_x, next_y = next_point
+                prev_x, prev_y = prev_point
+                trackline_direction = math.atan2(next_y - prev_y, next_x - prev_x) 
+                print("next_x " + format(next_x, ".3f") + " next y " + format(next_y, ".3f") + " trackline_direction " + format(trackline_direction, ".3f"))
+                # Convert to degree
+                trackline_direction_deg = math.degrees(trackline_direction)
+                # Calculate the difference between the track direction and the heading direction of the car
+                direction_diff = trackline_direction_deg - heading
+                if distance < 0.2:
+                    if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
+                        raceline_reward *= 1.1
+                    if abs(direction_diff) < 5 and abs(steering_angle) == 0:
+                        raceline_reward *= 1.3
+
+                        if speed > 3.4:
+                            speed_reward *= 1.1 
 
             if steps > 1:
                 progress_reward = progress / steps 
@@ -250,7 +274,7 @@ class Reward:
 
             progress_reward = progress_reward * 4
             raceline_reward = raceline_reward * 2
-            total_reward = (progress_reward + speed_reward) ** 2 + progress_reward * speed_reward
+            total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + progress_reward * speed_reward
 
             #print("distance = " + format(distance, "0.3f"))
             #print("raceline rewards = " + format(raceline_reward, ".3f"))
