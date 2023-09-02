@@ -51,7 +51,7 @@ def distance_to_raceline(current_point, prev_point, next_point):
 
 def calculate_reward_using_signmoid(x):
     """Returns the sigmoid value of x."""
-    return ((1 - 1 / (1 + math.exp(-x))) * 2) ** 4
+    return ((1 - 1 / (1 + math.exp(-x))) * 2) ** 10
 
 class Reward:
     def __init__(self, verbose=False):
@@ -232,7 +232,7 @@ class Reward:
        [-3.67571035e-01, -3.75680483e+00]]) 
       
         # Max speed. Although the max speed is lower in corner, it will just give more bias to the racing line and progress
-        MAX_SPEED = 4
+        MAX_SPEED = 3.5
         MAX_STEERING = 22
 
         # Read input parameters
@@ -315,10 +315,15 @@ class Reward:
                 progress_reward = 0
 
             # adjust weighting
-            heading_reward *= 1
-            raceline_reward *= 0.8
-            speed_reward *= 0.3
-            smooth_reward *= 0.1
+            raceline_reward *= 2
+
+            if raceline_reward < 1:
+                heading_reward = 1e-3
+            if heading_reward < 0.5:
+                speed_reward = 1e-3
+            if speed_reward < 0.5:
+                smooth_reward = 1e-3
+
             total_reward = progress_reward \
                             + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
                             + raceline_reward * speed_reward * heading_reward * smooth_reward 
