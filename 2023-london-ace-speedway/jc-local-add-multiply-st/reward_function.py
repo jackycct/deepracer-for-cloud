@@ -273,6 +273,8 @@ class Reward:
             # Calculate the deviation from raceline    
             next_waypoint = waypoints[closest_waypoints[1]]
             prev_waypoint = waypoints[closest_waypoints[0]]
+            next_point = track_line[closest_waypoints[1]]
+            prev_point = track_line[closest_waypoints[0]]            
             distance = distance_to_raceline([x,y], prev_point, next_point)
             #distance = distance_to_tangent([[x,y], next_point, prev_point])
             print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
@@ -286,9 +288,8 @@ class Reward:
             WP_LOOKAHEAD = 2
             lookahead = round(WP_LOOKAHEAD * (prev_speed + speed))
             next_wp = closest_waypoints[1] + lookahead % len(waypoints)
-            next_point = track_line[next_wp]
-            prev_point = track_line[closest_waypoints[0]]
-            next_x, next_y = next_point
+            further_point = track_line[next_wp]
+            next_x, next_y = further_point
             prev_x, prev_y = prev_point
             wp_direction = math.atan2(next_y - prev_y, next_x - prev_x) 
             print("next_x " + format(next_x, ".3f") + " next y " + format(next_y, ".3f") + " trackline_direction " + format(wp_direction, ".3f"))
