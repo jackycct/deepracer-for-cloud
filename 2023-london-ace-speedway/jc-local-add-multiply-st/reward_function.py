@@ -225,6 +225,7 @@ class Reward:
         speed = params['speed']
         waypoints = params['waypoints']
         closest_waypoints = params['closest_waypoints']
+        heading = params['heading']
         progress = params['progress']
         steps = params['steps']
         x = params['x']
@@ -263,9 +264,24 @@ class Reward:
             print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
             print("rl " + format(prev_point[0], "0.1f") + "," + format(prev_point[1], "0.1f") + "  " + format(next_point[0], "0.1f") + "," + format(next_point[1], "0.1f") + "  " + format(x, "0.1f") + "," + format(y, "0.1f"))
             raceline_reward = calculate_reward_using_signmoid(distance)
-            
+
             speed_reward = speed / MAX_SPEED
+
+            heading_reward = 0.0001
             if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
+                next_x, next_y = next_point
+                prev_x, prev_y = prev_point
+                trackline_direction = math.atan2(next_y - prev_y, next_x - prev_x) 
+                print("next_x " + format(next_x, ".3f") + " next y " + format(next_y, ".3f") + " trackline_direction " + format(trackline_direction, ".3f"))
+                # Convert to degree
+                trackline_direction_deg = math.degrees(trackline_direction)
+                # Calculate the difference between the track direction and the heading direction of the car
+                direction_diff = trackline_direction_deg - heading
+                if distance < 0.2:
+                    if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
+                        heading_reward = 0.5
+                    if abs(direction_diff) < 5 and abs(steering_angle) == 0:
+                        heading_reward = 1.0
                 if speed < 3.4:
                     speed_reward *= 0.01
 
@@ -276,7 +292,9 @@ class Reward:
 
             progress_reward = progress_reward * 4
             raceline_reward = raceline_reward * 2
-            total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
+            #total_reward = raceline_reward
+            total_reward = raceline_reward + heading_reward
+            #total_reward = (progress_reward + raceline_reward + speed_reward) ** 2 + speed_reward * raceline_reward * progress_reward
 
             print("distance = " + format(distance, "0.3f"))
             print("raceline rewards = " + format(raceline_reward, ".3f"))
