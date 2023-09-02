@@ -314,6 +314,11 @@ class Reward:
             else:
                 progress_reward = 0
 
+            # adjust weighting
+            heading_reward *= 1
+            raceline_reward *= 0.8
+            speed_reward *= 0.3
+            smooth_reward *= 0.1
             total_reward = progress_reward \
                             + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
                             + raceline_reward * speed_reward * heading_reward * smooth_reward 
