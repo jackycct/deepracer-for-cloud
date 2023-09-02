@@ -252,10 +252,10 @@ class Reward:
         else:
             smooth_reward = 1e-3
             print("Steps : " + format(steps, "0.3f"))
+            prev_speed = 0
             if steps == 1:
                 self.past_params = []
                 self.one_step_count = 1
-                prev_speed = 0
                 print("smooth_reward : " + format(smooth_reward, "0.1f"))
             else:
                 last_idx = len(self.past_params) - 1
