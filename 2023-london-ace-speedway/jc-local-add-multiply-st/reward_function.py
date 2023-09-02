@@ -285,8 +285,8 @@ class Reward:
 
             heading_reward = 0.0001
             # Heading reward, if it is suppose to turn left but turning right, then penalty
-            WP_LOOKAHEAD = 2
-            lookahead = round(WP_LOOKAHEAD * (prev_speed + speed))
+            WP_LOOKAHEAD = 1.5
+            lookahead = round(WP_LOOKAHEAD * (prev_speed + speed) / 2)
             next_wp = (closest_waypoints[1] + lookahead) % len(waypoints)
             further_point = track_line[next_wp]
             next_x, next_y = further_point
@@ -321,8 +321,8 @@ class Reward:
             # adjust weighting
             raceline_reward *= 2
 
-            if raceline_reward < 1:
-                heading_reward = 1e-3
+            #if raceline_reward < 1:
+            #    heading_reward = 1e-3
             if heading_reward < 0.5:
                 speed_reward = 1e-3
             if speed_reward < 0.5:
