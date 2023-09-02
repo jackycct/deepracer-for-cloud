@@ -320,12 +320,10 @@ class Reward:
             else:
                 total_reward = 0
 
-            print("distance = " + format(distance, "0.3f"))
-            print("raceline rewards = " + format(raceline_reward, ".3f"))
+            print("raceline rewards = " + format(raceline_reward, ".3f") + " for distance = " + format(distance, "0.3f"))
             print("speed rewards = " + format(speed_reward, ".3f"))
             print("heading rewards = " + format(heading_reward, ".3f"))
             print("smooth rewards = " + format(smooth_reward, ".3f"))
-            print("total rewards = " + format(total_reward, ".3f"))
 
             return total_reward
     
