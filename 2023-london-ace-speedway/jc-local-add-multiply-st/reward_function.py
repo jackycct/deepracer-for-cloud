@@ -6,10 +6,36 @@ def distance_to_tangent(points):
     x, y = points[0]
     x1, y1 = points[1]
     x2, y2 = points[2]
-    slope = (y2 - y1) / (x2 - x1)
-    y_intercept = y1 - slope * x1
-    tangent_y = slope * x + y_intercept
-    return math.sqrt((x - x1)**2 + (tangent_y - y)**2)
+    
+    # Calculate the direction vector of the line
+    dx = x2 - x1
+    dy = y2 - y1
+
+    # Calculate the length of the direction vector
+    length = math.sqrt(dx**2 + dy**2)
+
+    # Calculate the normalized direction vector
+    if length == 0:
+        raise ValueError("The line is just a point")
+    else:
+        dx /= length
+        dy /= length
+
+    # Calculate the vector from (x1, y1) to (x, y)
+    vx = x - x1
+    vy = y - y1
+
+    # Calculate the dot product of the two vectors
+    dot_product = vx * dx + vy * dy
+
+    # Calculate the projection of (x, y) onto the line
+    projection_x = x1 + dot_product * dx
+    projection_y = y1 + dot_product * dy
+
+    # Calculate the distance from (x, y) to the projection point
+    distance = math.sqrt((x - projection_x)**2 + (y - projection_y)**2)
+
+    return distance
 
 def calculate_reward_using_signmoid(x):
     """Returns the sigmoid value of x."""
