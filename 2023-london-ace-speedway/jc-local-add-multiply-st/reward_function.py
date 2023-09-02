@@ -250,7 +250,7 @@ class Reward:
         if is_offtrack:
             return 0.0001
         else:
-            smooth_reward = 1
+            smooth_reward = 1e-3
             print("Steps : " + format(steps, "0.3f"))
             if steps == 1:
                 self.past_params = []
@@ -262,7 +262,7 @@ class Reward:
                     prev_steering_angle = self.past_params[last_idx]['steering_angle']
                     prev_speed = self.past_params[last_idx]['speed']
                     if prev_steering_angle == steering_angle and prev_speed == speed:
-                        smooth_reward = 1.2
+                        smooth_reward = 1
 
                     print("smooth_reward {}, previous {},{}, current {},{}".format(smooth_reward, prev_steering_angle, prev_speed, steering_angle, speed))
 
