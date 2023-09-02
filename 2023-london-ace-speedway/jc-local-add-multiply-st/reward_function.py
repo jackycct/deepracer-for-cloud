@@ -314,12 +314,12 @@ class Reward:
             else:
                 progress_reward = 0
 
-            if steps < 280:
-                total_reward = progress_reward \
-                                + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
-                                + raceline_reward * speed_reward * heading_reward * smooth_reward 
-            else:
-                total_reward = 0
+            total_reward = progress_reward \
+                            + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
+                            + raceline_reward * speed_reward * heading_reward * smooth_reward 
+
+            if steps > 280:
+                total_reward /= (steps - 280)
 
             print("raceline rewards = " + format(raceline_reward, ".3f") + " for distance = " + format(distance, "0.3f"))
             print("speed rewards = " + format(speed_reward, ".3f"))
