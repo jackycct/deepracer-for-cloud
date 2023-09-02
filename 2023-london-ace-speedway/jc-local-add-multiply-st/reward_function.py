@@ -292,10 +292,11 @@ class Reward:
             wp_direction_deg = math.degrees(wp_direction)
             # Calculate the difference between the track direction and the heading direction of the car
             direction_diff = wp_direction_deg - heading
-            if direction_diff * steering_angle > 0:
+            steering_diff = abs(steering_angle - direction_diff)
+            if steering_diff < 10:
                 heading_reward = 1
             else:
-                heading_reward = 1 - abs(steering_angle) / (MAX_STEERING+1)
+                heading_reward = max(1 - abs(steering_diff) / (MAX_STEERING+1), 1e-3)
 
             if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
                 if distance < 0.2:
