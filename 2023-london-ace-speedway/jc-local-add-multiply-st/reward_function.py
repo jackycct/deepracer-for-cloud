@@ -290,8 +290,7 @@ class Reward:
             next_wp = closest_waypoints[1] + lookahead % len(waypoints)
             further_point = track_line[next_wp]
             next_x, next_y = further_point
-            prev_x, prev_y = prev_point
-            wp_direction = math.atan2(next_y - prev_y, next_x - prev_x) 
+            wp_direction = math.atan2(next_y - y, next_x - x) 
             print("next_x " + format(next_x, ".3f") + " next y " + format(next_y, ".3f") + " trackline_direction " + format(wp_direction, ".3f"))
             # Convert to degree
             wp_direction_deg = math.degrees(wp_direction)
