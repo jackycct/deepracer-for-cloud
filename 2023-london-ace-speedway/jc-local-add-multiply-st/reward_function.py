@@ -255,6 +255,7 @@ class Reward:
             if steps == 1:
                 self.past_params = []
                 self.one_step_count = 1
+                prev_speed = 0
                 print("smooth_reward : " + format(smooth_reward, "0.1f"))
             else:
                 last_idx = len(self.past_params) - 1
@@ -282,8 +283,9 @@ class Reward:
 
             heading_reward = 0.0001
             # Heading reward, if it is suppose to turn left but turning right, then penalty
-            WP_LOOKAHEAD = 3
-            next_wp = closest_waypoints[1] + WP_LOOKAHEAD % len(waypoints)
+            WP_LOOKAHEAD = 2
+            lookahead = round(WP_LOOKAHEAD * (prev_speed + speed))
+            next_wp = closest_waypoints[1] + lookahead % len(waypoints)
             next_point = track_line[next_wp]
             prev_point = track_line[closest_waypoints[0]]
             next_x, next_y = next_point
