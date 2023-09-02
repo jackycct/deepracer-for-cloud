@@ -37,15 +37,17 @@ def distance_to_tangent(points):
 
     return distance
 
-def distance_to_raceline(current_point, next_point):
+def distance_to_raceline(current_point, prev_point, next_point):
     """Calculates the distance of (x, y) to the tangent of (x1, y1) and (x2, y2)."""
     x, y = current_point
-    x1, y1 = next_point
+    x1, y1 = prev_point
+    x2, y2 = next_point
 
     # Calculate the distance from (x, y) to the next point
-    distance = math.sqrt((x - x1)**2 + (y - y1)**2)
+    distance1 = math.sqrt((x - x1)**2 + (y - y1)**2)
+    distance2 = math.sqrt((x - x2)**2 + (y - y2)**2)
 
-    return distance
+    return min(distance1, distance2)
 
 def calculate_reward_using_signmoid(x):
     """Returns the sigmoid value of x."""
@@ -270,7 +272,7 @@ class Reward:
             prev_waypoint = waypoints[closest_waypoints[0]]
             next_point = track_line[closest_waypoints[1]]
             prev_point = track_line[closest_waypoints[0]]
-            distance = distance_to_raceline([x,y], next_point)
+            distance = distance_to_raceline([x,y], prev_point, next_point)
             #distance = distance_to_tangent([[x,y], next_point, prev_point])
             print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
             print("rl " + format(prev_point[0], "0.1f") + "," + format(prev_point[1], "0.1f") + "  " + format(next_point[0], "0.1f") + "," + format(next_point[1], "0.1f") + "  " + format(x, "0.1f") + "," + format(y, "0.1f"))
