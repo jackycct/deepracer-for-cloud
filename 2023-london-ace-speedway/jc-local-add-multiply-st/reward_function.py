@@ -272,8 +272,6 @@ class Reward:
             # Calculate the deviation from raceline    
             next_waypoint = waypoints[closest_waypoints[1]]
             prev_waypoint = waypoints[closest_waypoints[0]]
-            next_point = track_line[closest_waypoints[1]]
-            prev_point = track_line[closest_waypoints[0]]
             distance = distance_to_raceline([x,y], prev_point, next_point)
             #distance = distance_to_tangent([[x,y], next_point, prev_point])
             print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
@@ -284,6 +282,10 @@ class Reward:
 
             heading_reward = 0.0001
             # Heading reward, if it is suppose to turn left but turning right, then penalty
+            WP_LOOKAHEAD = 3
+            next_wp = closest_waypoints[1] + WP_LOOKAHEAD % len(waypoints)
+            next_point = track_line[next_wp]
+            prev_point = track_line[closest_waypoints[0]]
             next_x, next_y = next_point
             prev_x, prev_y = prev_point
             wp_direction = math.atan2(next_y - prev_y, next_x - prev_x) 
