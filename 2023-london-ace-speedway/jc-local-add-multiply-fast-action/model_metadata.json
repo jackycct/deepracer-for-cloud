@@ -1,64 +1,64 @@
 {
     "action_space": [
         {
-            "steering_angle": -22,
+            "steering_angle": -25,
+            "speed": 2.3
+        },
+        {
+            "steering_angle": -20,
             "speed": 2.4
         },
         {
-            "steering_angle": -22,
-            "speed": 2.7
+            "steering_angle": -10,
+            "speed": 2.6
         },
         {
-            "steering_angle": -17,
+            "steering_angle": -10,
             "speed": 3.0
         },
         {
-            "steering_angle": -11,
-            "speed": 2.5
-        },
-        {
-            "steering_angle": -11,
-            "speed": 2.9
-        },
-        {
             "steering_angle": -5,
-            "speed": 3.5
+            "speed": 3.3
         },
         {
             "steering_angle": 0,
-            "speed": 2.8
+            "speed": 2.4
+        },
+        {
+            "steering_angle": 0,
+            "speed": 2.6
+        },
+        {
+            "steering_angle": 0,
+            "speed": 3.0
+        },
+        {
+            "steering_angle": 0,
+            "speed": 3.3
         },
         {
             "steering_angle": 0,
             "speed": 3.6
         },
         {
-            "steering_angle": 0,
-            "speed": 4.0
-        },
-        {
             "steering_angle": 5,
-            "speed": 3.5
+            "speed": 3.3
         },
         {
-            "steering_angle": 11,
-            "speed": 2.5
-        },
-        {
-            "steering_angle": 11,
-            "speed": 2.9
-        },
-        {
-            "steering_angle": 17,
+            "steering_angle": 10,
             "speed": 3.0
         },
         {
-            "steering_angle": 22,
+            "steering_angle": 10,
+            "speed": 2.6
+        },
+        {
+            "steering_angle": 20,
             "speed": 2.4
         },
         {
-            "steering_angle": 22,
-            "speed": 2.7
+            "steering_angle": 25,
+            "speed": 2.3
         }
     ],
     "sensor": [
