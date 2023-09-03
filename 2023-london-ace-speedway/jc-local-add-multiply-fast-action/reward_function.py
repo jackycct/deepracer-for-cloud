@@ -49,9 +49,9 @@ def distance_to_raceline(current_point, prev_point, next_point):
 
     return min(distance1, distance2)
 
-def calculate_reward_using_signmoid(x):
+def calculate_reward_using_signmoid(x, power=10):
     """Returns the sigmoid value of x."""
-    return ((1 - 1 / (1 + math.exp(-x))) * 2) ** 10
+    return ((1 - 1 / (1 + math.exp(-x))) * 2) ** power
 
 class Reward:
     def __init__(self, verbose=False):
@@ -306,19 +306,19 @@ class Reward:
             speed_reward = speed / MAX_SPEED
             wp = closest_waypoints[0]
             if 25 <= wp <= 28:    
-                speed_reward = max(1 - (speed - 2.6) ** 2, 1e-3)                
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.6), 5)             
             elif 42 <= wp <= 49:    
-                speed_reward = max(1 - (speed - 2.6) ** 2, 1e-3)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.6), 5)
             elif 46 <= wp <= 56:
-                speed_reward = max(1 - (speed - 2.5) ** 2, 1e-3)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.5), 5)
             elif 85 <= wp <= 90:
-                speed_reward = max(1 - (speed - 3.0) ** 2, 1e-3)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.0), 5)
             elif 98 <= wp <= 102:
-                speed_reward = max(1 - (speed - 2.9) ** 2, 1e-3)                    
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.9), 5)
             elif 112 <= wp <= 116:
-                speed_reward = max(1 - (speed - 2.7) ** 2, 1e-3)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.7), 5)
             elif wp > 135 or wp < 10:
-                speed_reward = max(1 - (speed - 4) ** 2, 1e-3)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 4.0), 5)
                 if distance < 0.2:
                     if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
                         heading_reward *= 1.2
