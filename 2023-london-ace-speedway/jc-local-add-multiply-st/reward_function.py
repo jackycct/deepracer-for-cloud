@@ -231,6 +231,8 @@ class Reward:
        [-5.17685473e-01, -3.67439008e+00],
        [-3.67571035e-01, -3.75680483e+00]]) 
       
+        BENCHMARK_STEPS = [35, 63, 89, 119, 147, 175, 202, 226, 254, 283]
+
         # Max speed. Although the max speed is lower in corner, it will just give more bias to the racing line and progress
         MAX_SPEED = 3.5
         MAX_STEERING = 22
@@ -311,8 +313,9 @@ class Reward:
                     if abs(direction_diff) < 5 and abs(steering_angle) == 0:
                         heading_reward *= 1.2
 
-            if progress > self.one_step_count * 10:
-                progress_reward = max((35 * self.one_step_count - steps) * 5, 1e-3)
+            if progress > self.one_step_count * 10
+                faster_steps = BENCHMARK_STEPS[self.one_step_count - 1] - steps
+                progress_reward = 10 * faster_steps if faster_steps > 0 else 5
                 self.one_step_count += 1
                 print("progress rewards = " + format(progress_reward, ".3f"))
             else:
