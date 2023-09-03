@@ -329,7 +329,7 @@ class Reward:
 
             if progress > self.one_step_count * 10:
                 faster_steps = BENCHMARK_STEPS[self.one_step_count - 1] - steps
-                progress_reward = 10 * faster_steps if faster_steps > 0 else 0
+                progress_reward = 5 * faster_steps if faster_steps > 0 else 0
                 self.one_step_count += 1
                 print("progress rewards = " + format(progress_reward, ".3f"))
             else:
@@ -349,8 +349,8 @@ class Reward:
                             + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
                             + raceline_reward * speed_reward * heading_reward * smooth_reward 
 
-            if steps > 250:
-                total_reward /= (steps - 250)
+            if progress == 100:
+                total_reward += max(270 - steps) * 50
 
             print("raceline rewards = " + format(raceline_reward, ".3f") + " for distance = " + format(distance, "0.3f"))
             print("speed rewards = " + format(speed_reward, ".3f"))
