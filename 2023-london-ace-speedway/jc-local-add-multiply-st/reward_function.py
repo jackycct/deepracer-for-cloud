@@ -312,7 +312,7 @@ class Reward:
                         heading_reward *= 1.2
 
             if progress > self.one_step_count * 10:
-                progress_reward = max((35 * self.one_step_count - steps) * 250, 1e-3)
+                progress_reward = max((35 * self.one_step_count - steps) * 5, 1e-3)
                 self.one_step_count += 1
                 print("progress rewards = " + format(progress_reward, ".3f"))
             else:
