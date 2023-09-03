@@ -340,9 +340,9 @@ class Reward:
 
             #if raceline_reward < 1:
             #    heading_reward = 1e-3
-            if heading_reward < 0.8:
+            if heading_reward < 0.6:
                 speed_reward = 1e-3
-            if speed_reward < 0.8:
+            if speed_reward < 0.6:
                 smooth_reward = 1e-3
 
             total_reward = progress_reward \
