@@ -302,7 +302,7 @@ class Reward:
                 heading_reward = (1 - abs(steering_diff - STEERING_THRESHOLD) / (180 - STEERING_THRESHOLD)) ** 5
 
             speed_reward = speed / MAX_SPEED
-            if closest_waypoints[0] > 46 or closest_waypoints[1] < 56:
+            if closest_waypoints[0] > 46 and closest_waypoints[1] < 56:
                 speed_reward = max(1 - (speed - 2.4) ** 2, 1e-3)
             elif closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
                 if distance < 0.2:
