@@ -350,7 +350,7 @@ class Reward:
                             + raceline_reward * speed_reward * heading_reward * smooth_reward 
 
             if progress == 100:
-                total_reward += max(270 - steps, 0) * 50
+                total_reward += max(270 - steps, 0) ** 2
 
             print("raceline rewards = " + format(raceline_reward, ".3f") + " for distance = " + format(distance, "0.3f"))
             print("speed rewards = " + format(speed_reward, ".3f"))
