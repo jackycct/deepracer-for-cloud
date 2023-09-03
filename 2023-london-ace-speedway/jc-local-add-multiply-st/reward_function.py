@@ -306,27 +306,27 @@ class Reward:
             speed_reward = speed / MAX_SPEED
             
             wp = closest_waypoints[0]
-            match wp:
-                case wp if 25 <= wp <= 28:    
-                    speed_reward = max(1 - (speed - 2.6) ** 2, 1e-3)                
-                case wp if 42 <= wp <= 49:    
-                    speed_reward = max(1 - (speed - 2.6) ** 2, 1e-3)
-                case wp if 46 <= wp <= 56:
-                    speed_reward = max(1 - (speed - 2.5) ** 2, 1e-3)
-                case wp if 85 <= wp <= 90:
-                    speed_reward = max(1 - (speed - 3.0) ** 2, 1e-3)
-                case wp if 98 <= wp <= 102:
-                    speed_reward = max(1 - (speed - 2.9) ** 2, 1e-3)                    
-                case wp if 112 <= wp <= 116:
-                    speed_reward = max(1 - (speed - 2.7) ** 2, 1e-3)
-                case wp if wp > 135 or wp < 10:
-                    if distance < 0.2:
-                        if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
-                            heading_reward *= 1.2
-                        if abs(direction_diff) < 5 and abs(steering_angle) == 0:
-                            heading_reward *= 1.2
-                            if speed >= 3.3:
-                                speed_reward *= 1.2
+            wp = closest_waypoints[0]
+            if 25 <= wp <= 28:    
+                speed_reward = max(1 - (speed - 2.6) ** 2, 1e-3)                
+            elif 42 <= wp <= 49:    
+                speed_reward = max(1 - (speed - 2.6) ** 2, 1e-3)
+            elif 46 <= wp <= 56:
+                speed_reward = max(1 - (speed - 2.5) ** 2, 1e-3)
+            elif 85 <= wp <= 90:
+                speed_reward = max(1 - (speed - 3.0) ** 2, 1e-3)
+            elif 98 <= wp <= 102:
+                speed_reward = max(1 - (speed - 2.9) ** 2, 1e-3)                    
+            elif 112 <= wp <= 116:
+                speed_reward = max(1 - (speed - 2.7) ** 2, 1e-3)
+            elif wp > 135 or wp < 10:
+                if distance < 0.2:
+                    if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
+                        heading_reward *= 1.2
+                    if abs(direction_diff) < 5 and abs(steering_angle) == 0:
+                        heading_reward *= 1.2
+                        if speed >= 3.3:
+                            speed_reward *= 1.2
 
             if progress > self.one_step_count * 10:
                 faster_steps = BENCHMARK_STEPS[self.one_step_count - 1] - steps
