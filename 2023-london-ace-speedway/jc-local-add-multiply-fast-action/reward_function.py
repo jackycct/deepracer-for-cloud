@@ -318,6 +318,7 @@ class Reward:
             elif 112 <= wp <= 116:
                 speed_reward = max(1 - (speed - 2.7) ** 2, 1e-3)
             elif wp > 135 or wp < 10:
+                speed_reward = max(1 - (speed - 4) ** 2, 1e-3)
                 if distance < 0.2:
                     if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
                         heading_reward *= 1.2
