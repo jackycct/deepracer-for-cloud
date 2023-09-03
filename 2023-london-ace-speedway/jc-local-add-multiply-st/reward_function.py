@@ -281,8 +281,6 @@ class Reward:
             print("rl " + format(prev_point[0], "0.1f") + "," + format(prev_point[1], "0.1f") + "  " + format(next_point[0], "0.1f") + "," + format(next_point[1], "0.1f") + "  " + format(x, "0.1f") + "," + format(y, "0.1f"))
             raceline_reward = calculate_reward_using_signmoid(distance)
 
-            speed_reward = speed / MAX_SPEED
-
             heading_reward = 0.0001
             # Heading reward, if it is suppose to turn left but turning right, then penalty
             WP_LOOKAHEAD = 1.5
@@ -303,17 +301,18 @@ class Reward:
             else:
                 heading_reward = (1 - abs(steering_diff - STEERING_THRESHOLD) / (180 - STEERING_THRESHOLD)) ** 5
 
-            if closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
+            speed_reward = speed / MAX_SPEED
+            if closest_waypoints[0] > 46 or closest_waypoints[1] < 56:
+                speed_reward = max(1 - (speed - 2.4) ** 2, 1e-3)
+            elif closest_waypoints[0] > 135 or closest_waypoints[1] < 10:
                 if distance < 0.2:
                     if abs(direction_diff) < 10 and abs(steering_angle) <= 11:
                         heading_reward *= 1.2
                     if abs(direction_diff) < 5 and abs(steering_angle) == 0:
                         heading_reward *= 1.2
-                if speed < 3.4:
-                    speed_reward *= 0.01
 
             if progress > self.one_step_count * 10:
-                progress_reward = progress * 250 / steps
+                progress_reward = max((35 - steps) * 250, 1e-3)
                 self.one_step_count += 1
                 print("progress rewards = " + format(progress_reward, ".3f"))
             else:
