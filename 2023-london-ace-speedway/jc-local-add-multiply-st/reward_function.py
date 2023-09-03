@@ -315,7 +315,7 @@ class Reward:
 
             if progress > self.one_step_count * 10:
                 faster_steps = BENCHMARK_STEPS[self.one_step_count - 1] - steps
-                progress_reward = 10 * faster_steps if faster_steps > 0 else 5
+                progress_reward = 10 * faster_steps if faster_steps > 0 else 0
                 self.one_step_count += 1
                 print("progress rewards = " + format(progress_reward, ".3f"))
             else:
