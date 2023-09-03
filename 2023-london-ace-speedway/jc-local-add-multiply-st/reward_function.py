@@ -312,6 +312,8 @@ class Reward:
                         heading_reward *= 1.2
                     if abs(direction_diff) < 5 and abs(steering_angle) == 0:
                         heading_reward *= 1.2
+                        if speed >= 3.3:
+                            speed_reward *= 1.2
 
             if progress > self.one_step_count * 10:
                 faster_steps = BENCHMARK_STEPS[self.one_step_count - 1] - steps
