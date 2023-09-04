@@ -307,13 +307,13 @@ class Reward:
             speed_reward = calculate_reward_using_signmoid(abs(speed - 3.3), 5)
             wp = closest_waypoints[0]
             if 25 <= wp <= 28:    
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.7), 5)             
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.6), 5)             
             elif 42 <= wp <= 49:    
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 2.4), 5)
             elif 46 <= wp <= 56:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 2.4), 5)
             elif 85 <= wp <= 90:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.1), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.0), 5)
             elif 98 <= wp <= 102:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 2.9), 5)
             elif 112 <= wp <= 116:
