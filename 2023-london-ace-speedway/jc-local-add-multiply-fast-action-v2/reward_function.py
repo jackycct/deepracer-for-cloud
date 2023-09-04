@@ -337,7 +337,7 @@ class Reward:
                 progress_reward = 0
 
             # adjust weighting
-            raceline_reward *= 0.2
+            raceline_reward *= 1
 
             #if raceline_reward < 1:
             #    heading_reward = 1e-3
@@ -349,6 +349,10 @@ class Reward:
             total_reward = progress_reward \
                             + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
                             + raceline_reward * speed_reward * heading_reward * smooth_reward 
+
+            total_reward = progress_reward \
+                            + (speed_reward + heading_reward + smooth_reward) ** 2 \
+                            + speed_reward * heading_reward * smooth_reward 
 
             if progress == 100:
                 total_reward += max(270 - steps, 0) ** 2
