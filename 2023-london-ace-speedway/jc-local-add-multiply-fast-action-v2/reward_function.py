@@ -231,7 +231,8 @@ class Reward:
        [-5.17685473e-01, -3.67439008e+00],
        [-3.67571035e-01, -3.75680483e+00]]) 
       
-        BENCHMARK_STEPS = [35, 63, 89, 119, 147, 175, 202, 226, 254, 283]
+        #BENCHMARK_STEPS = [35, 63, 89, 119, 147, 175, 202, 226, 254, 283]
+        BENCHMARK_STEPS = [33, 56, 80, 105, 128, 153, 177, 202, 227, 252]
 
         # Max speed. Although the max speed is lower in corner, it will just give more bias to the racing line and progress
         MAX_SPEED = 3.5
@@ -336,7 +337,7 @@ class Reward:
                 progress_reward = 0
 
             # adjust weighting
-            raceline_reward *= 1
+            raceline_reward *= 0.2
 
             #if raceline_reward < 1:
             #    heading_reward = 1e-3
