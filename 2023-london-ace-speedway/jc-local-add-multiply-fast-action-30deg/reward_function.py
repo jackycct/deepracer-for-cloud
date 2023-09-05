@@ -339,8 +339,7 @@ class Reward:
                 progress_reward = 0
 
             # adjust weighting
-            if not all_wheels_on_track:
-                raceline_reward *= 0.7
+            raceline_reward = 1.5
 
             #if raceline_reward < 1:
             #    heading_reward = 1e-3
