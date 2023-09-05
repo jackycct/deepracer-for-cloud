@@ -231,8 +231,8 @@ class Reward:
        [-5.17685473e-01, -3.67439008e+00],
        [-3.67571035e-01, -3.75680483e+00]]) 
       
-        #BENCHMARK_STEPS = [35, 63, 89, 119, 147, 175, 202, 226, 254, 283]
-        BENCHMARK_STEPS = [33, 56, 80, 105, 128, 153, 177, 202, 227, 252]
+        BENCHMARK_STEPS = [35, 63, 89, 119, 147, 175, 202, 226, 254, 283]
+        #BENCHMARK_STEPS = [33, 56, 80, 105, 128, 153, 177, 202, 227, 252]
 
         # Max speed. Although the max speed is lower in corner, it will just give more bias to the racing line and progress
         MAX_SPEED = 3.5
@@ -249,6 +249,7 @@ class Reward:
         y = params['y']
         steering_angle = params['steering_angle']
         is_offtrack = params['is_offtrack']
+        all_wheels_on_track = params['all_wheels_on_track']
 
         if is_offtrack:
             return 0.0001
@@ -327,7 +328,7 @@ class Reward:
                         if speed >= 3.3:
                             speed_reward *= 1.2
             else:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.5), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 4.0), 5)
 
             if progress > self.one_step_count * 10:
                 faster_steps = BENCHMARK_STEPS[self.one_step_count - 1] - steps
@@ -338,7 +339,8 @@ class Reward:
                 progress_reward = 0
 
             # adjust weighting
-            raceline_reward *= 1
+            if not all_wheels_on_track:
+                raceline_reward *= 0.7
 
             #if raceline_reward < 1:
             #    heading_reward = 1e-3
@@ -350,10 +352,6 @@ class Reward:
             total_reward = progress_reward \
                             + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
                             + raceline_reward * speed_reward * heading_reward * smooth_reward 
-
-            total_reward = progress_reward \
-                            + (speed_reward + heading_reward + smooth_reward) ** 2 \
-                            + speed_reward * heading_reward * smooth_reward 
 
             if progress == 100:
                 total_reward += max(270 - steps, 0) ** 2
