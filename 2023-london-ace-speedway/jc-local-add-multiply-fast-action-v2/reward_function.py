@@ -305,15 +305,16 @@ class Reward:
             else:
                 heading_reward = (1 - abs(steering_diff - STEERING_THRESHOLD) / (180 - STEERING_THRESHOLD)) ** 5
 
+            
             wp = closest_waypoints[0]
             if 25 <= wp <= 28:    
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.6), 5)             
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.7), 5)             
             elif 42 <= wp <= 49:    
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 2.4), 5)
             elif 46 <= wp <= 56:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 2.4), 5)
             elif 85 <= wp <= 90:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.0), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.1), 5)
             elif 98 <= wp <= 102:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 2.9), 5)
             elif 112 <= wp <= 116:
@@ -328,7 +329,7 @@ class Reward:
                         if speed >= 3.3:
                             speed_reward *= 1.2
             else:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 4.0), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.3), 5)
 
             if progress > self.one_step_count * 10:
                 faster_steps = BENCHMARK_STEPS[self.one_step_count - 1] - steps
