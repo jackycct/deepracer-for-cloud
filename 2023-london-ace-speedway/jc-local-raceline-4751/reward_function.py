@@ -344,11 +344,11 @@ class Reward:
             raceline_reward *= 2
 
             if raceline_reward < 1:
-                heading_reward *= .5
+                heading_reward *= .3
             if heading_reward < 0.6:
-                speed_reward *= .3
+                speed_reward *= .2
             if speed_reward < 0.6:
-                smooth_reward *= .2
+                smooth_reward *= .1
 
             total_reward = progress_reward \
                             + (raceline_reward + speed_reward + heading_reward + smooth_reward) ** 2 \
