@@ -281,8 +281,8 @@ class Reward:
             prev_point = track_line[closest_waypoints[0]]            
             distance = distance_to_raceline([x,y], prev_point, next_point)
             #distance = distance_to_tangent([[x,y], next_point, prev_point])
-            print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
-            print("rl " + format(prev_point[0], "0.1f") + "," + format(prev_point[1], "0.1f") + "  " + format(next_point[0], "0.1f") + "," + format(next_point[1], "0.1f") + "  " + format(x, "0.1f") + "," + format(y, "0.1f"))
+            #print("wp " + format(prev_waypoint[0], "0.1f") + "," + format(prev_waypoint[1], "0.1f") + "  " + format(next_waypoint[0], "0.1f") + "," + format(next_waypoint[1], "0.1f"))
+            #print("rl " + format(prev_point[0], "0.1f") + "," + format(prev_point[1], "0.1f") + "  " + format(next_point[0], "0.1f") + "," + format(next_point[1], "0.1f") + "  " + format(x, "0.1f") + "," + format(y, "0.1f"))
             raceline_reward = calculate_reward_using_signmoid(distance)
 
             heading_reward = 0.0001
@@ -299,6 +299,8 @@ class Reward:
             # Calculate the difference between the track direction and the heading direction of the car
             direction_diff = wp_direction_deg - heading
             steering_diff = abs(steering_angle - direction_diff)
+            print("wp_dir_deg " + format(wp_direction_deg, ".1f") + " heading "+ format(heading, ".1f"))
+            print("direction_diff " + format(direction_diff, ".1f") + " steering_diff "+ format(steering_diff, ".1f"))
             STEERING_THRESHOLD = 10
             if steering_diff < STEERING_THRESHOLD:
                 heading_reward = 1
@@ -339,7 +341,7 @@ class Reward:
                 progress_reward = 0
 
             # adjust weighting
-            raceline_reward = 2
+            raceline_reward *= 2
 
             if raceline_reward < 1:
                 heading_reward *= .5
