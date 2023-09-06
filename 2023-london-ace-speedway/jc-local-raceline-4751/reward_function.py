@@ -298,7 +298,7 @@ class Reward:
             wp_direction_deg = math.degrees(wp_direction)
             # Calculate the difference between the track direction and the heading direction of the car
             direction_diff = abs(wp_direction_deg - heading)
-            direction_diff = 360 - direction_diff if direction_diff > 180 else direction_diff
+            direction_diff = min(direction_diff, 360 - direction_diff)
             steering_diff = abs(steering_angle - direction_diff)
             print("wp_dir_deg " + format(wp_direction_deg, ".1f") + " heading "+ format(heading, ".1f"))
             print("direction_diff " + format(direction_diff, ".1f") + " steering_diff "+ format(steering_diff, ".1f"))
