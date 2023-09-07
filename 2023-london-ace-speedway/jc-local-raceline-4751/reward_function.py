@@ -311,18 +311,18 @@ class Reward:
             else:
                 heading_reward = (1 - abs(steering_diff - STEERING_THRESHOLD) / (180 - STEERING_THRESHOLD)) ** 5
             wp = closest_waypoints[0]
-            if 25 <= wp <= 28:    
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.6), 5)             
-            elif 42 <= wp <= 49:    
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.5), 5)
-            elif 46 <= wp <= 56:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.5), 5)
+            # if 25 <= wp <= 28:
+                # speed_reward = calculate_reward_using_signmoid(abs(speed - 2.6), 5)             
+            if 42 <= wp <= 49:    
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.0), 5)
+            # elif 46 <= wp <= 56:
+            #     speed_reward = calculate_reward_using_signmoid(abs(speed - 2.5), 5)
             elif 85 <= wp <= 90:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 3.1), 5)
             elif 98 <= wp <= 102:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.0), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.0), 5)
             elif 112 <= wp <= 116:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.3), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 3.6), 5)
             elif wp > 135 or wp < 10:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 4.0), 5)
                 if distance < 0.2:
