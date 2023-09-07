@@ -314,11 +314,11 @@ class Reward:
             # if 25 <= wp <= 28:
                 # speed_reward = calculate_reward_using_signmoid(abs(speed - 2.6), 5)             
             if 42 <= wp <= 49:    
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.4), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.2), 5)
             elif 85 <= wp <= 90:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 3.1), 5)
             elif 91 <= wp <= 102:
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.4), 5)
+                speed_reward = calculate_reward_using_signmoid(abs(speed - 2.2), 5)
             elif 102 <= wp <= 128:
                 speed_reward = calculate_reward_using_signmoid(abs(speed - 3.6), 5)
             elif wp > 135 or wp < 10:
