@@ -155,7 +155,7 @@ class Reward:
                 if most_distance_wp - closest_waypoints[1] > FULL_SPEED_WAYPOINT_THRESHOLD: 
                     speed_reward = calculate_reward_using_signmoid(abs(speed - 4.0), 5)
                 else:
-                    speed_reward = (speed - 2.4) / (4.0 - 2.4)
+                    speed_reward = (speed - 2.2) / (4.0 - 2.2)
 
             total_reward = (speed_reward + heading_reward) ** 2 + speed_reward * heading_reward 
 
