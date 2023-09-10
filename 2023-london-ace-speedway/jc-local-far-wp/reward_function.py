@@ -39,7 +39,7 @@ def distance_to_tangent_of_line(point, line_start_point, line_end_point):
 
     return distance
 
-def find_most_far_away_visible_waypoint(current_x_y, closest_waypoint, waypoints, width=.9, debug=False):
+def find_most_far_away_visible_waypoint(current_x_y, closest_waypoint, waypoints, width=.5, debug=False):
     """Find the most far away visible waypoint without blocked by the track
     """
     results = closest_waypoint
@@ -130,7 +130,7 @@ class Reward:
         if is_offtrack:
             return 0.0001
         else:
-            most_distance_wp = find_most_far_away_visible_waypoint([x, y], closest_waypoints, waypoints, .5)
+            most_distance_wp = find_most_far_away_visible_waypoint([x, y], closest_waypoints[1], waypoints, .5)
             
             most_far_away_wp_degree = get_degree_between_points([x, y], waypoints[most_distance_wp])
 
