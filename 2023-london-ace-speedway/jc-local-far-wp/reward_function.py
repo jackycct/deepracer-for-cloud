@@ -123,14 +123,31 @@ class Reward:
         steps = params['steps']
         x = params['x']
         y = params['y']
+        track_width = params['track_width']        
         steering_angle = params['steering_angle']
         is_offtrack = params['is_offtrack']
         all_wheels_on_track = params['all_wheels_on_track']
+        distance_from_center = params['distance_from_center']
 
         if is_offtrack:
             return 0.0001
         else:
-            most_distance_wp = find_most_far_away_visible_waypoint([x, y], closest_waypoints[1], waypoints, .5)
+            # Calculate 3 markers that are at varying distances away from the center line
+            marker_1 = 0.4 * track_width
+            marker_2 = 0.45 * track_width
+            marker_3 = 0.5 * track_width
+            
+            # Give higher reward if the car is closer to center line and vice versa
+            if distance_from_center <= marker_1:
+                center_reward = 1.0
+            elif distance_from_center <= marker_2:
+                center_reward = 0.5
+            elif distance_from_center <= marker_3:
+                center_reward = 0.1
+            else:
+                center_reward = 1e-3  # likely crashed/ close to off track
+                            
+            most_distance_wp = find_most_far_away_visible_waypoint([x, y], closest_waypoints[1], waypoints, track_width)
             
             most_far_away_wp_degree = get_degree_between_points([x, y], waypoints[most_distance_wp])
 
@@ -158,10 +175,11 @@ class Reward:
                 else:
                     speed_reward = (speed - 2.2) / (4.0 - 2.2)
 
-            total_reward = (speed_reward + heading_reward) ** 2 + speed_reward * heading_reward 
+            total_reward = (center_reward + heading_reward + speed_reward) ** 2 + center_reward * speed_reward * heading_reward 
 
-            print("speed rewards = " + format(speed_reward, ".3f"))
+            print("center rewards = " + format(center_reward, ".3f"))
             print("heading rewards = " + format(heading_reward, ".3f"))
+            print("speed rewards = " + format(speed_reward, ".3f"))
 
             return total_reward
     
