@@ -150,10 +150,12 @@ class Reward:
             else:
                 heading_reward = (1 - abs(steering_diff - STEERING_THRESHOLD) / (180 - STEERING_THRESHOLD)) ** 5
             
-            if heading_reward > 0.8 and most_distance_wp - closest_waypoints[1] > FULL_SPEED_WAYPOINT_THRESHOLD: 
-                speed_reward = calculate_reward_using_signmoid(abs(speed - 4.0), 5)
-            else:
-                speed_reward = (speed - 2.4) / (4.0 - 2.4)
+            speed_reward = 1e-3
+            if heading_reward > 0.8:
+                if most_distance_wp - closest_waypoints[1] > FULL_SPEED_WAYPOINT_THRESHOLD: 
+                    speed_reward = calculate_reward_using_signmoid(abs(speed - 4.0), 5)
+                else:
+                    speed_reward = (speed - 2.4) / (4.0 - 2.4)
 
             total_reward = (speed_reward + heading_reward) ** 2 + speed_reward * heading_reward 
 
