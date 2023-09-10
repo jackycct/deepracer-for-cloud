@@ -135,6 +135,7 @@ class Reward:
             most_far_away_wp_degree = get_degree_between_points([x, y], waypoints[most_distance_wp])
 
             direction_diff = heading - most_far_away_wp_degree
+            print(" direction_diff " + format(direction_diff, ".1f"))
             if direction_diff > 180:
                 direction_diff = 360 - direction_diff
             elif heading < -180:
