@@ -1,5 +1,5 @@
 {
-  "batch_size": 128,
+  "batch_size": 32,
   "beta_entropy": 0.01,
   "discount_factor": 0.995,
   "e_greedy_value": 1.0,
@@ -7,7 +7,7 @@
   "exploration_type": "categorical",
   "loss_type": "huber",
   "lr": 0.0003,
-  "num_episodes_between_training": 20,
+  "num_episodes_between_training": 10,
   "num_epochs": 10,
   "stack_size": 1,
   "term_cond_avg_score": 100000.0,
