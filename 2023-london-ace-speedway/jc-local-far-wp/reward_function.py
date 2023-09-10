@@ -143,7 +143,7 @@ class Reward:
             print("most_far_away_wp_degree " + format(most_far_away_wp_degree, ".1f") + " heading "+ format(heading, ".1f"))
             print("steering_angle " + format(steering_angle, ".1f") + " direction_diff " + format(direction_diff, ".1f") + " steering_diff "+ format(steering_diff, ".1f"))
 
-            STEERING_THRESHOLD = 10
+            STEERING_THRESHOLD = 3
             FULL_SPEED_WAYPOINT_THRESHOLD = 15
             if steering_diff < STEERING_THRESHOLD:
                 heading_reward = 1
