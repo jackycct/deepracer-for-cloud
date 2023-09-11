@@ -133,8 +133,8 @@ class Reward:
             return 0.0001
         else:
             # Calculate 3 markers that are at varying distances away from the center line
-            marker_1 = 0.4 * track_width
-            marker_2 = 0.45 * track_width
+            marker_1 = 0.3 * track_width
+            marker_2 = 0.4 * track_width
             marker_3 = 0.5 * track_width
             
             # Give higher reward if the car is closer to center line and vice versa
@@ -175,7 +175,9 @@ class Reward:
                 else:
                     speed_reward = (speed - 2.2) / (4.0 - 2.2)
 
-            total_reward = (center_reward + heading_reward + speed_reward) ** 2 + center_reward * speed_reward * heading_reward 
+            total_reward = center_reward
+            #total_reward = (center_reward + heading_reward + speed_reward) ** 2 + center_reward * speed_reward * heading_reward 
+
 
             print("center rewards = " + format(center_reward, ".3f"))
             print("heading rewards = " + format(heading_reward, ".3f"))
