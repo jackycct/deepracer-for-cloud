@@ -138,14 +138,7 @@ class Reward:
             marker_3 = 0.5 * track_width
             
             # Give higher reward if the car is closer to center line and vice versa
-            if distance_from_center <= marker_1:
-                center_reward = 1.0
-            elif distance_from_center <= marker_2:
-                center_reward = 0.5
-            elif distance_from_center <= marker_3:
-                center_reward = 0.1
-            else:
-                center_reward = 1e-3  # likely crashed/ close to off track
+            center_reward = calculate_reward_using_signmoid(distance_from_center)
                             
             most_distance_wp = find_most_far_away_visible_waypoint([x, y], closest_waypoints[1], waypoints, track_width)
             
